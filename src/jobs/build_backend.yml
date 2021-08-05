@@ -46,7 +46,7 @@ steps:
         - deps-composer-<<parameters.cache-version>>-{{ arch }}
   - steps: <<parameters.init>>
   - save_cache:
-      key: deps-composer-{{ arch }}-{{ checksum "composer.lock" }}<<parameters.cache-version>>
+      key: deps-composer-<<parameters.cache-version>>-{{ arch }}-{{ checksum "composer.lock" }}
       paths:
         - app/core
         - app/modules/contrib
