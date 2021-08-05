@@ -43,7 +43,7 @@ parameters:
     description: Run the front-end unit tests.
     default: []
   cache-version:
-    description: An optional version number for cache dependencies, e.g. -v1
+    description: An optional version number for cache dependencies, e.g. v1
     type: string
     default: v2
 
