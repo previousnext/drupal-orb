@@ -34,7 +34,7 @@ parameters:
   cache-version:
     description: An optional version number for cache dependencies, e.g. -v1
     type: string
-    default: ~
+    default: v1
 
 executor: <<parameters.executor>>
 
