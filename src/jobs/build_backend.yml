@@ -32,7 +32,7 @@ parameters:
     description: Run the the backend-end tests.
     default: []
   cache-version:
-    description: An optional version number for cache dependencies, e.g. -v1
+    description: An optional version number for cache dependencies, e.g. v1
     type: string
     default: v1
 
