@@ -11,11 +11,18 @@ BASE_BRANCH=$(gh pr view --json baseRefName --jq .baseRefName $CIRCLE_PULL_REQUE
 echo "BASE_BRANCH: ${BASE_BRANCH}"
 
 # Generate the diff.
+git checkout ${BASE_BRANCH}
+git pull origin
+git checkout -
 $HOME/.config/composer/vendor/bin/composer-lock-diff --from ${BASE_BRANCH} --md > /tmp/diff.md
-cat /tmp/diff.md
 
 # If there is no diff, exit.
-[[ -z $(cat /tmp/diff.md) ]] && exit 0
+if [ -s /tmp/diff.md ]; then
+  echo "Diff found"
+else
+  echo "No diff found"
+  exit 0
+fi
 
 # Extract Pull Request ID.
 PULL_REQUEST_ID=${CIRCLE_PULL_REQUEST##*/}
@@ -25,7 +32,7 @@ echo "PULL_REQUEST_ID: ${PULL_REQUEST_ID}"
 COMMENT_ID=$(gh api --jq '.[] | select(.body | contains("Composer lock diff")) | .id' /repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/issues/${PULL_REQUEST_ID}/comments)
 echo "COMMENT_ID: ${COMMENT_ID}"
 
-echo -e "### Composer lock diff\n\n" >> /tmp/comment.md
+echo -e "*Composer lock diff*\n\n" >> /tmp/comment.md
 cat /tmp/diff.md >> /tmp/comment.md
 
 if [[ -z "${COMMENT_ID}" ]]; then
