@@ -11,9 +11,6 @@ BASE_BRANCH=$(gh pr view --json baseRefName --jq .baseRefName $CIRCLE_PULL_REQUE
 echo "BASE_BRANCH: ${BASE_BRANCH}"
 
 # Generate the diff.
-git checkout ${BASE_BRANCH}
-git pull origin
-git checkout -
 $HOME/.config/composer/vendor/bin/composer-lock-diff --from ${BASE_BRANCH} --md > /tmp/diff.md
 
 # If there is no diff, exit.
@@ -41,5 +38,5 @@ if [[ -z "${COMMENT_ID}" ]]; then
 else
   # Update existing comment.
   COMMENT_BODY=$(cat /tmp/comment.md)
-  gh api --method PATCH /repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/issues/comments/${COMMENT_ID} -f body=${COMMENT_BODY}
+  gh api --method PATCH /repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/issues/comments/${COMMENT_ID} -f body="${COMMENT_BODY}"
 fi
