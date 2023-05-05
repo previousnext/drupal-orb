@@ -22,7 +22,7 @@ else
   git add composer.lock
   git commit -F /tmp/commit-message.txt
   make config-import updb config-export
-  git add config-export
+  git add "${ORB_PARAM_CONFIG_DIR}"
   git commit -m "[PATCHY] Updates config" || echo "No config changes"
   git push -f origin $PATCHY_BRANCH
   # Create a new PR or updating existing.
