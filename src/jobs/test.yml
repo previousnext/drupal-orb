@@ -36,7 +36,7 @@ parameters:
     default:
       - run:
           name: "Test: Application"
-          command: for i in `./bin/phpunit-finder | circleci tests split --split-by=timings`; do /bin/bash -c "./bin/phpunit $i --log-junit build/logs/phpunit/$(basename $i).xml"; done
+          command: for i in `./bin/phpunit-finder | circleci tests split --split-by=timings`; do /bin/bash -c "./bin/phpunit $i --log-junit $(pwd)/build/logs/phpunit/$(basename $i).xml"; done
       - run:
           name: "Test: Nightwatch"
           command: make ci-nightwatch
