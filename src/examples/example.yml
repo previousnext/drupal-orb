@@ -15,8 +15,8 @@ usage:
             context: skpr-example
             executor:
               name: drupal/node
-              tag: 14-1.x
-            theme_path: app/themes/mytheme
+              tag: 20-v2-edge
+            storybook_path: app/storybook
             library_path: app/libraries/mylibrary
         - drupal/build_backend:
             context: skpr-example
