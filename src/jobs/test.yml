@@ -4,7 +4,6 @@ description: |
   The following Make targets will be called by default:
    - deploy
    - test-init
-   - ci-nightwatch
 
   The default test step assumes you have installed the
   https://packagist.org/packages/previousnext/phpunit-finder package.
@@ -37,9 +36,6 @@ parameters:
       - run:
           name: "Test: Application"
           command: for i in `./bin/phpunit-finder | circleci tests split --split-by=timings`; do /bin/bash -c "./bin/phpunit $i --log-junit $(pwd)/build/logs/phpunit/$(basename $i).xml"; done
-      - run:
-          name: "Test: Nightwatch"
-          command: make ci-nightwatch
   post-test:
     type: steps
     description: Provide any optional post-test steps you would like to run.
@@ -68,8 +64,5 @@ steps:
       path: build/logs
   - store_artifacts:
       path: app/sites/simpletest
-      destination: tr1
-  - store_artifacts:
-      path: build/logs/nightwatch
       destination: tr1
   - steps: <<parameters.post-test>>

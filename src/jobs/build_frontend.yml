@@ -1,17 +1,16 @@
 description: |
-  Build the Drupal front-end.
+  Build the front-end.
 
-  The following Make targets are required and will be called:
-   - init-frontend
-   - lint-frontend
-   - build-frontend
+  The following npm commands are required and will be called:
+   - npm run lint
+   - npm run build
 
 parameters:
   executor:
     type: executor
     description: The executor to use.
-  theme_path:
-    description: The Drupal theme path.
+  storybook_path:
+    description: The Storybook build path.
     type: string
   library_path:
     description: The Drupal library path.
@@ -22,26 +21,22 @@ parameters:
     description: Initialise the front-end dependencies.
     default:
       - run:
-          name: Init
-          command: make init-frontend
+          name: Install
+          command: npm -q ci
   lint:
     type: steps
     description: Check the codebase against style guidelines.
     default:
       - run:
           name: Lint
-          command: make lint-frontend
+          command: npm run lint
   build:
     type: steps
     description: Build the front-end components.
     default:
       - run:
           name: Build
-          command: make build-frontend
-  unit-test:
-    type: steps
-    description: Run the front-end unit tests.
-    default: []
+          command: npm run build
   cache-version:
     description: An optional version number for cache dependencies, e.g. v1
     type: string
@@ -61,12 +56,9 @@ steps:
         - ~/.npm
   - steps: <<parameters.lint>>
   - steps: <<parameters.build>>
-  - steps: <<parameters.unit-test>>
   - persist_to_workspace:
       root: /data
       paths:
-        - app/styleguide
+        - <<parameters.storybook_path>>
         - <<parameters.library_path>>
-        - <<parameters.theme_path>>/css
-        - <<parameters.theme_path>>/js
         - node_modules
