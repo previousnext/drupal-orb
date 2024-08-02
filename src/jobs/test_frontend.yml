@@ -1,0 +1,21 @@
+description: |
+  Frontend linting and test.
+
+  The following npm commands are required and will be called:
+   - npm run lint
+   - npm run test:ci
+
+parameters:
+  executor:
+    type: executor
+    description: The executor to use.
+
+executor: <<parameters.executor>>
+
+steps:
+  - checkout
+  - attach_workspace:
+      at: /data
+  - run:
+      name: "Test"
+      command: npm run test:ci
