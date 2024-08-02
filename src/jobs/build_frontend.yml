@@ -17,6 +17,10 @@ parameters:
     description: The Drupal library path.
     type: string
     default: ""
+  storybook_path:
+    description: Path to built Storybook or KSS.
+    type: string
+    default: app/styleguide
   init:
     type: steps
     description: Initialise the front-end dependencies.
@@ -65,7 +69,7 @@ steps:
   - persist_to_workspace:
       root: /data
       paths:
-        - app/styleguide
+        - <<parameters.storybook_path>>
         - <<parameters.library_path>>
         - <<parameters.theme_path>>/css
         - <<parameters.theme_path>>/js
