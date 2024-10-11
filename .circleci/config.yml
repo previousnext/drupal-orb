@@ -12,7 +12,6 @@ workflows:
   lint-pack:
     jobs:
       - orb-tools/lint
-      - orb-tools/lint
       - orb-tools/pack
       - orb-tools/continue:
           pipeline_number: << pipeline.number >>
