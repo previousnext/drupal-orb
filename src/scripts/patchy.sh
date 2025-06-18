@@ -26,7 +26,7 @@ else
   git commit -m "[PATCHY] Updates config" || echo "No config changes"
   git push -f origin $PATCHY_BRANCH
   # Create a new PR or updating existing.
-  gh pr create -t "[PATCHY] Updates composer dependencies" -F /tmp/lock-diff.txt -l "dependencies" -l "php" || gh pr edit $PATCHY_BRANCH -F /tmp/lock-diff.txt
+  gh pr create -t "[PATCHY] Updates composer dependencies" -F /tmp/lock-diff.txt || gh pr edit $PATCHY_BRANCH -F /tmp/lock-diff.txt
 fi
 # Reset defaults.
 git checkout "$CURRENT_BRANCH"
