@@ -1,0 +1,24 @@
+description: |
+  Tests storybook.
+
+  The following npm commands are required and will be called:
+   - npm run http-server
+   - npm run test-storybook:ci
+
+docker:
+  - image: mcr.microsoft.com/playwright:v1.44.1-jammy
+
+steps:
+  - checkout
+  - attach_workspace:
+      at: /data
+  - run:
+      name: "Start Storybook"
+      command: npm run http-server
+      background: true
+  - run:
+      name: "Install Playwright"
+      command: npx playwright install --with-deps
+  - run:
+      name: "Test Storybook"
+      command: npm run test-storybook:ci
