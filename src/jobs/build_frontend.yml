@@ -46,10 +46,6 @@ parameters:
     description: An optional version number for cache dependencies, e.g. v1
     type: string
     default: v2
-  lock-file:
-    description: An optional lock file to use for the cache steps
-    type: string
-    default: package-lock.json
 
 executor: <<parameters.executor>>
 
@@ -57,12 +53,17 @@ steps:
   - checkout
   - restore_cache:
       keys:
-        - deps-node-<<parameters.cache-version>>-{{ arch }}-{{ checksum "<<parameters.lock-file>>" }}
+        - pnpm-<<parameters.cache-version>>-{{ arch }}-{{ checksum "pnpm-lock.yaml" }}
   - steps: <<parameters.init>>
+  - run:
+      name: Lookup pnpm cache path
+      command: |
+        PNPM_CACHE_PATH=$(pnpm store path)
+        echo "PNPM_CACHE_PATH=${PNPM_CACHE_PATH}" >> "$BASH_ENV"
   - save_cache:
-      key: deps-node-<<parameters.cache-version>>-{{ arch }}-{{ checksum "<<parameters.lock-file>>" }}
+      key: pnpm-<<parameters.cache-version>>-{{ arch }}-{{ checksum "pnpm-lock.yaml" }}
       paths:
-        - ~/.npm
+        - $PNPM_CACHE_PATH
   - steps: <<parameters.lint>>
   - steps: <<parameters.build>>
   - steps: <<parameters.unit-test>>
