@@ -59,7 +59,8 @@ steps:
       name: Lookup pnpm cache path
       command: |
         PNPM_CACHE_PATH=$(pnpm store path)
-        echo "PNPM_CACHE_PATH=${PNPM_CACHE_PATH}" >> "$BASH_ENV"
+        echo "pnpm cache path: $PNPM_CACHE_PATH"
+        echo "PNPM_CACHE_PATH=$PNPM_CACHE_PATH" >> "$BASH_ENV"
   - save_cache:
       key: pnpm-<<parameters.cache-version>>-{{ arch }}-{{ checksum "pnpm-lock.yaml" }}
       paths:
