@@ -56,15 +56,11 @@ steps:
         - pnpm-<<parameters.cache-version>>-{{ arch }}-{{ checksum "pnpm-lock.yaml" }}
   - steps: <<parameters.init>>
   - run:
-      name: Lookup pnpm cache path
-      command: |
-        PNPM_CACHE_PATH=$(pnpm store path)
-        echo "pnpm cache path: $PNPM_CACHE_PATH"
-        echo 'export PNPM_CACHE_PATH="${PNPM_CACHE_PATH}"' >> $BASH_ENV
+      name: Set pnpm store path
+      command: pnpm config set store-dir .pnpm-store
   - save_cache:
       key: pnpm-<<parameters.cache-version>>-{{ arch }}-{{ checksum "pnpm-lock.yaml" }}
-      paths:
-        - $PNPM_CACHE_PATH
+      paths: [ .pnpm-store ]
   - steps: <<parameters.lint>>
   - steps: <<parameters.build>>
   - steps: <<parameters.unit-test>>
