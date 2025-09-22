@@ -45,7 +45,7 @@ parameters:
   cache-version:
     description: An optional version number for cache dependencies, e.g. v1
     type: string
-    default: v2-test01
+    default: v3
 
 executor: <<parameters.executor>>
 
@@ -54,13 +54,13 @@ steps:
   - restore_cache:
       keys:
         - pnpm-<<parameters.cache-version>>-{{ arch }}-{{ checksum "pnpm-lock.yaml" }}
-  - steps: <<parameters.init>>
   - run:
       name: Set pnpm store path
-      command: pnpm config set store-dir .pnpm-store
+      command: pnpm config set store-dir /tmp/.pnpm-store
+  - steps: <<parameters.init>>
   - save_cache:
       key: pnpm-<<parameters.cache-version>>-{{ arch }}-{{ checksum "pnpm-lock.yaml" }}
-      paths: [ .pnpm-store ]
+      paths: [ /tmp/.pnpm-store ]
   - steps: <<parameters.lint>>
   - steps: <<parameters.build>>
   - steps: <<parameters.unit-test>>
